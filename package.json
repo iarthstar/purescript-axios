@@ -1,0 +1,24 @@
+{
+    "name": "purescript-axios",
+    "version": "1.0.0",
+    "author": {
+        "name": "Arth K. Gajjar",
+        "email": "iarthstar@gmail.com",
+        "url": "https://github.com/iarthstar"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://bitbucket.org/iarthstar/purescript-axios.git"
+    },
+    "license": "MIT",
+    "private": false,
+    "scripts": {
+        "start": "pulp -w --then 'pulp test' build",
+        "build": "pulp build"
+    },
+    "dependencies": {
+        "axios": "^0.19.0",
+        "pulp": "^13.0.0",
+        "purescript": "^0.13.2"
+    }
+}
