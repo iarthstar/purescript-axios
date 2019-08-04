@@ -13,6 +13,7 @@
     "license": "MIT",
     "private": false,
     "scripts": {
+        "clean" : "rm -rf bower_components output node_modules .pulp-cache",
         "start": "pulp -w test",
         "test": "pulp test",
         "build": "pulp build"

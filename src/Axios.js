@@ -2,19 +2,31 @@
 
 const axios = require("axios");
 
-exports["axios"] = function (url) {
+async function doSomethingAsync(url, method, data, cb) {
+    await axios(url, {
+        method: method.toLowerCase(),
+        data: data
+    }).then(res => {
+        cb(false, res.data);
+    }).catch(err => {
+        cb(true, err);
+    });
+}
+
+exports._axios = function (url) {
     return function (method) {
         return function (body) {
-            return function (cb) {
-                return function () {
-                    axios(url, {
-                        method : method,
-                        data : body
-                    }).then(res => {
-                        return cb (res.data) ();
-                    }).catch(err => {
-                        console.log(err);
-                    });
+            return function (onError, onSuccess) {
+                var cancel = doSomethingAsync(url, method, body, function (err, res) {
+                    if (err) {
+                        onError(res);
+                    } else {
+                        onSuccess(res);
+                    }
+                });
+                return function (cancelError, onCancelerError, onCancelerSuccess) {
+                    cancel();
+                    onCancelerSuccess();
                 }
             }
         }

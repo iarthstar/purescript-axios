@@ -1,12 +1,28 @@
-/bower_components/
-/node_modules/
-/.pulp-cache/
-/output/
-/generated-docs/
+# dependencies
+bower_components
+node_modules
+.npm
+npm-debug.log
+
+# cache
+.pulp-cache
+output
+
+# lock 
+package-lock.json
+yarn.lock
+
+# mac
+.DS_Store
+
+# docs
+generated-docs
+
+# purescript 
 /.psc-package/
 /.psc*
-/.purs*
 /.psa*
+/.purs*
 
+# editor 
 .vscode
-yarn.lock
