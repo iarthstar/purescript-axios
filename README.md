@@ -13,14 +13,14 @@ bower i purescript-axios
 ```purescript
 main :: Effect Unit
 main = launchAff_ do
-  let configGet = Config 
-        { url : (userIdUrl 1)
-        , method : GET
-        , data : SingleUserReq {}
+  let configPost = Config 
+        { url : userUrl
+        , method : POST
+        , data : CreateUserReq { name : "Arth K. Gajjar", job : "Developer" }
         , headers : [ Header "Content-Type" "application/json" ]
         }
-  axios configGet >>= case _ of
-    Right (SingleUserRes a) -> log $ "GET : " <> show a
+  axios configPost >>= case _ of
+    Right (CreateUserRes a) -> log $ "POST : " <> show a
     Left err -> logShow err
 ```
 

@@ -1,5 +1,16 @@
 {
   "name": "purescript-axios",
+  "author": {
+    "name": "Arth K. Gajjar",
+    "email": "iarthstar@gmail.com",
+    "url": "https://github.com/iarthstar"
+  },
+  "private": false,
+  "license": "MIT",
+  "repository": {                                                           
+    "type": "git",                                                          
+    "url": "https://github.com/iarthstar/purescript-axios.git"             
+  },
   "ignore": [
     "**/.*",
     "node_modules",
