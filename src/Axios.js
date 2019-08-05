@@ -17,7 +17,7 @@ exports._axios = function (url) {
     return function (method) {
         return function (body) {
             return function (onError, onSuccess) {
-                var cancel = doSomethingAsync(url, method, body, function (err, res) {
+                let cancel = doSomethingAsync(url, method, body, function (err, res) {
                     if (err) {
                         onError(res);
                     } else {
