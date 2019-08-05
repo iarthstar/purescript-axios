@@ -14,24 +14,24 @@ newtype CreateUserReq = CreateUserReq
 derive instance genericCreateUserReq :: Generic CreateUserReq _
 instance decodeCreateUserReq :: Encode CreateUserReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
 
-newtype CreateUserResp = CreateUserResp
+newtype CreateUserRes = CreateUserRes
   { name :: String
   , job :: String
   , id :: String
   , createdAt :: String
   }
-derive instance genericCreateUserResp :: Generic CreateUserResp _
-instance decodeCreateUserResp :: Decode CreateUserResp where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
-instance showCreateUserResp :: Show CreateUserResp where show = genericShow
+derive instance genericCreateUserRes :: Generic CreateUserRes _
+instance decodeCreateUserRes :: Decode CreateUserRes where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
+instance showCreateUserRes :: Show CreateUserRes where show = genericShow
 
 -- | Axios instance for CreateUser API
-instance axiosCreateUserReq :: Axios CreateUserReq CreateUserResp where axios = genericAxios
+instance axiosCreateUserReq :: Axios CreateUserReq CreateUserRes where axios = genericAxios
 
 data SingleUserReq = SingleUserReq {}
 derive instance genericSingleUserReq :: Generic SingleUserReq _
 instance decodeSingleUserReq :: Encode SingleUserReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
 
-newtype SingleUserResp = SingleUserResp
+newtype SingleUserRes = SingleUserRes
   { data :: 
     { id :: Int
     , email :: String
@@ -40,12 +40,12 @@ newtype SingleUserResp = SingleUserResp
     , avatar :: String
     }
   }
-derive instance genericSingleUserResp :: Generic SingleUserResp _
-instance decodeSingleUserResp :: Decode SingleUserResp where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
-instance showSingleUserResp :: Show SingleUserResp where show = genericShow
+derive instance genericSingleUserRes :: Generic SingleUserRes _
+instance decodeSingleUserRes :: Decode SingleUserRes where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
+instance showSingleUserRes :: Show SingleUserRes where show = genericShow
 
 -- | Axios instance for SingleUser API
-instance axiosSingleUserReq :: Axios SingleUserReq SingleUserResp where axios = genericAxios
+instance axiosSingleUserReq :: Axios SingleUserReq SingleUserRes where axios = genericAxios
 
 newtype UpdateUserReq = UpdateUserReq
   { name :: String
@@ -54,26 +54,26 @@ newtype UpdateUserReq = UpdateUserReq
 derive instance genericUpdateUserReq :: Generic UpdateUserReq _
 instance decodeUpdateUserReq :: Encode UpdateUserReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
 
-newtype UpdateUserResp = UpdateUserResp
+newtype UpdateUserRes = UpdateUserRes
   { name :: String
   , job :: String
   , updatedAt :: String
   }
-derive instance genericUpdateUserResp :: Generic UpdateUserResp _
-instance decodeUpdateUserResp :: Decode UpdateUserResp where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
-instance showUpdateUserResp :: Show UpdateUserResp where show = genericShow
+derive instance genericUpdateUserRes :: Generic UpdateUserRes _
+instance decodeUpdateUserRes :: Decode UpdateUserRes where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
+instance showUpdateUserRes :: Show UpdateUserRes where show = genericShow
 
 -- | Axios instance for UpdateUser API
-instance axiosUpdateUserReq :: Axios UpdateUserReq UpdateUserResp where axios = genericAxios
+instance axiosUpdateUserReq :: Axios UpdateUserReq UpdateUserRes where axios = genericAxios
 
 data DeleteUserReq = DeleteUserReq {}
 derive instance genericDeleteUserReq :: Generic DeleteUserReq _
 instance decodeDeleteUserReq :: Encode DeleteUserReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
 
-newtype DeleteUserResp = DeleteUserResp String
-derive instance genericDeleteUserResp :: Generic DeleteUserResp _
-instance decodeDeleteUserResp :: Decode DeleteUserResp where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
-instance showDeleteUserResp :: Show DeleteUserResp where show = genericShow
+newtype DeleteUserRes = DeleteUserRes String
+derive instance genericDeleteUserRes :: Generic DeleteUserRes _
+instance decodeDeleteUserRes :: Decode DeleteUserRes where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
+instance showDeleteUserRes :: Show DeleteUserRes where show = genericShow
 
 -- | Axios instance for DeleteUser API
-instance axiosDeleteUserReq :: Axios DeleteUserReq DeleteUserResp where axios = genericAxios
+instance axiosDeleteUserReq :: Axios DeleteUserReq DeleteUserRes where axios = genericAxios

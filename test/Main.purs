@@ -2,32 +2,52 @@ module Test.Main where
 
 import Prelude
 
-import Axios (Method(..), axios)
+import Axios (Config(..), Header(..), Method(..), axios)
 import Data.Either (Either(..))
 import Effect (Effect)
 import Effect.Aff (launchAff_)
 import Effect.Class.Console (log, logShow)
-import Test.Types (CreateUserReq(..), CreateUserResp(..), DeleteUserReq(..), DeleteUserResp(..), SingleUserReq(..), SingleUserResp(..), UpdateUserReq(..), UpdateUserResp(..))
+import Test.Types (CreateUserReq(..), CreateUserRes(..), DeleteUserReq(..), DeleteUserRes(..), SingleUserReq(..), SingleUserRes(..), UpdateUserReq(..), UpdateUserRes(..))
 import Test.Utils (userIdUrl, userUrl)
 
 main :: Effect Unit
 main = launchAff_ do
-  let singleUserReq = SingleUserReq {}
-  axios (userIdUrl 1) GET singleUserReq >>= case _ of
-    Right (SingleUserResp a) -> log $ "GET : " <> show a
+  let configGet = Config 
+        { url : (userIdUrl 1)
+        , method : GET
+        , data : SingleUserReq {}
+        , headers : [ Header "Content-Type" "application/json" ]
+        }
+  axios configGet >>= case _ of
+    Right (SingleUserRes a) -> log $ "GET : " <> show a
     Left err -> logShow err
 
-  let createUserReq = CreateUserReq { name : "Arth K. Gajjar", job : "Developer" }
-  axios userUrl POST createUserReq >>= case _ of
-    Right (CreateUserResp a) -> log $ "POST : " <> show a
+  let configPost = Config 
+        { url : userUrl
+        , method : POST
+        , data : CreateUserReq { name : "Arth K. Gajjar", job : "Developer" }
+        , headers : [ Header "Content-Type" "application/json" ]
+        }
+  axios configPost >>= case _ of
+    Right (CreateUserRes a) -> log $ "POST : " <> show a
     Left err -> logShow err
 
-  let updateUserReq = UpdateUserReq { name : "Arth K. Gajjar", job : "Creator" }
-  axios (userIdUrl 1) PUT updateUserReq >>= case _ of
-    Right (UpdateUserResp a) -> log $ "PUT : " <> show a
+  let configPut = Config 
+        { url : (userIdUrl 1)
+        , method : PUT
+        , data : UpdateUserReq { name : "Arth K. Gajjar", job : "Creator" }
+        , headers : [ Header "Content-Type" "application/json" ]
+        }
+  axios configPut >>= case _ of
+    Right (UpdateUserRes a) -> log $ "PUT : " <> show a
     Left err -> logShow err
 
-  let deleteUserReq = DeleteUserReq {}
-  axios (userIdUrl 1) DELETE deleteUserReq >>= case _ of
-    Right (DeleteUserResp a) -> log $ "DELETE : " <> show a
+  let configDelete = Config 
+        { url : (userIdUrl 1)
+        , method : DELETE
+        , data : DeleteUserReq {}
+        , headers : [ Header "Content-Type" "application/json" ]
+        }
+  axios configDelete >>= case _ of
+    Right (DeleteUserRes a) -> log $ "DELETE : " <> show a
     Left err -> logShow err
