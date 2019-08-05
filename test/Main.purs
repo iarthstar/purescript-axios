@@ -2,46 +2,32 @@ module Test.Main where
 
 import Prelude
 
-import Axios (class Axios, Method(..), axios, genericAxios)
+import Axios (Method(..), axios)
 import Data.Either (Either(..))
-import Data.Generic.Rep (class Generic)
-import Data.Generic.Rep.Show (genericShow)
 import Effect (Effect)
 import Effect.Aff (launchAff_)
-import Effect.Class.Console (logShow)
-import Foreign.Generic (class Decode, class Encode, defaultOptions, genericDecode, genericEncode)
-
-newtype CreateUserReq = CreateUserReq
-  { name :: String
-  , job :: String
-  }
-
-derive instance genericCreateUserReq :: Generic CreateUserReq _
-instance decodeCreateUserReq :: Encode CreateUserReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
-
-newtype CreateUserResp = CreateUserResp
-  { name :: String
-  , job :: String
-  , id :: String
-  , createdAt :: String
-  }
-
-derive instance genericCreateUserResp :: Generic CreateUserResp _
-instance decodeCreateUserResp :: Decode CreateUserResp where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
-instance showCreateUserResp :: Show CreateUserResp where show = genericShow
-
-baseUrl :: String
-baseUrl = "https://reqres.in/api"
-
-createUserUrl :: String
-createUserUrl = baseUrl <> "/users"
-
-instance axiosCreateUserReq :: Axios CreateUserReq CreateUserResp where axios = genericAxios
+import Effect.Class.Console (log, logShow)
+import Test.Types (CreateUserReq(..), CreateUserResp(..), DeleteUserReq(..), DeleteUserResp(..), SingleUserReq(..), SingleUserResp(..), UpdateUserReq(..), UpdateUserResp(..))
+import Test.Utils (userIdUrl, userUrl)
 
 main :: Effect Unit
 main = launchAff_ do
-  let createUserReq = CreateUserReq { name : "Arth K. Gajjar", job : "Creator" }
-  
-  axios createUserUrl POST createUserReq >>= case _ of
-    Right (CreateUserResp a) -> logShow a
+  let singleUserReq = SingleUserReq {}
+  axios (userIdUrl 1) GET singleUserReq >>= case _ of
+    Right (SingleUserResp a) -> log $ "GET : " <> show a
+    Left err -> logShow err
+
+  let createUserReq = CreateUserReq { name : "Arth K. Gajjar", job : "Developer" }
+  axios userUrl POST createUserReq >>= case _ of
+    Right (CreateUserResp a) -> log $ "POST : " <> show a
+    Left err -> logShow err
+
+  let updateUserReq = UpdateUserReq { name : "Arth K. Gajjar", job : "Creator" }
+  axios (userIdUrl 1) PUT updateUserReq >>= case _ of
+    Right (UpdateUserResp a) -> log $ "PUT : " <> show a
+    Left err -> logShow err
+
+  let deleteUserReq = DeleteUserReq {}
+  axios (userIdUrl 1) DELETE deleteUserReq >>= case _ of
+    Right (DeleteUserResp a) -> log $ "DELETE : " <> show a
     Left err -> logShow err

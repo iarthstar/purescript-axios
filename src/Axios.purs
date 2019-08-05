@@ -30,9 +30,9 @@ data Method
 derive instance genericMethod :: Generic Method _
 instance showMethod :: Show Method where show = genericShow
 
-genericAxios :: forall a b. Decode a => Encode b => String -> Method -> b -> Aff (Either Error a)
+genericAxios :: forall a b. Decode b => Encode a => String -> Method -> a -> Aff (Either Error b)
 genericAxios url method body = attempt (fromEffectFnAff $ _axios url (show method) (encode body)) <#> case _ of
-    Right a -> case runExcept $ decode a of
-      Right x -> Right x
-      Left err -> Left $ error $ show err
-    Left err ->  Left err
+  Right a -> case runExcept $ decode a of
+    Right x -> Right x
+    Left err -> Left $ error $ show err
+  Left err ->  Left err
