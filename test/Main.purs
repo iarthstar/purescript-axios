@@ -7,11 +7,24 @@ import Data.Either (Either(..))
 import Effect (Effect)
 import Effect.Aff (launchAff_)
 import Effect.Class.Console (log, logShow)
-import Test.Types (CreateUserReq(..), CreateUserRes(..), DeleteUserReq(..), DeleteUserRes(..), SingleUserReq(..), SingleUserRes(..), UpdateUserReq(..), UpdateUserRes(..))
+import Test.Types (CreateUserReq(..), CreateUserRes(..), DeleteUserReq(..), DeleteUserRes(..), ListUsersReq(..), ListUsersRes(..), SingleUserReq(..), SingleUserRes(..), UpdateUserReq(..), UpdateUserRes(..))
 import Test.Utils (userIdUrl, userUrl)
 
 main :: Effect Unit
 main = launchAff_ do
+  let configListUsers = Config 
+        { url : userUrl
+        , method : GET
+        , data : ListUsersReq { page : 3 }
+        , headers : 
+          [ Header "Content-Type" "application/json"
+          , Header "Accept" "application/json"
+          ]
+        }
+  axios configListUsers >>= case _ of
+    Right (ListUsersRes a) -> log $ "GET : " <> show a
+    Left err -> logShow err
+
   let configGet = Config 
         { url : (userIdUrl 1)
         , method : GET

@@ -7,12 +7,43 @@ import Data.Generic.Rep (class Generic)
 import Data.Generic.Rep.Show (genericShow)
 import Foreign.Generic (class Decode, class Encode, defaultOptions, genericDecode, genericEncode)
 
+newtype ListUsersReq = ListUsersReq
+  { page :: Int
+  }
+derive instance genericListUsersReq :: Generic ListUsersReq _
+instance encodeListUsersReq :: Encode ListUsersReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
+
+newtype Datum = Datum
+  { id :: Number
+  , email :: String
+  , first_name :: String
+  , last_name :: String
+  , avatar :: String
+  }
+derive instance genericDatum :: Generic Datum _
+instance decodeDatum :: Decode Datum where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
+instance showDatum :: Show Datum where show = genericShow
+
+newtype ListUsersRes = ListUsersRes
+  { page :: Number
+  , per_page :: Number
+  , total :: Number
+  , total_pages :: Number
+  , data :: Array Datum
+  }
+derive instance genericListUsersRes :: Generic ListUsersRes _
+instance decodeListUsersRes :: Decode ListUsersRes where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
+instance showListUsersRes :: Show ListUsersRes where show = genericShow
+
+-- | Axios instance for CreateUser API
+instance axiosListUsersReq :: Axios ListUsersReq ListUsersRes where axios = genericAxios
+
 newtype CreateUserReq = CreateUserReq
   { name :: String
   , job :: String
   }
 derive instance genericCreateUserReq :: Generic CreateUserReq _
-instance decodeCreateUserReq :: Encode CreateUserReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
+instance encodeCreateUserReq :: Encode CreateUserReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
 
 newtype CreateUserRes = CreateUserRes
   { name :: String
@@ -29,7 +60,7 @@ instance axiosCreateUserReq :: Axios CreateUserReq CreateUserRes where axios = g
 
 data SingleUserReq = SingleUserReq {}
 derive instance genericSingleUserReq :: Generic SingleUserReq _
-instance decodeSingleUserReq :: Encode SingleUserReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
+instance encodeSingleUserReq :: Encode SingleUserReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
 
 newtype SingleUserRes = SingleUserRes
   { data :: 
@@ -52,7 +83,7 @@ newtype UpdateUserReq = UpdateUserReq
   , job :: String
   }
 derive instance genericUpdateUserReq :: Generic UpdateUserReq _
-instance decodeUpdateUserReq :: Encode UpdateUserReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
+instance encodeUpdateUserReq :: Encode UpdateUserReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
 
 newtype UpdateUserRes = UpdateUserRes
   { name :: String
@@ -68,7 +99,7 @@ instance axiosUpdateUserReq :: Axios UpdateUserReq UpdateUserRes where axios = g
 
 data DeleteUserReq = DeleteUserReq {}
 derive instance genericDeleteUserReq :: Generic DeleteUserReq _
-instance decodeDeleteUserReq :: Encode DeleteUserReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
+instance encodeDeleteUserReq :: Encode DeleteUserReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
 
 newtype DeleteUserRes = DeleteUserRes String
 derive instance genericDeleteUserRes :: Generic DeleteUserRes _

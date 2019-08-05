@@ -1,13 +1,20 @@
 "use strict";
 
 const axios = require("axios");
+const uuidv4 = require('uuid/v4');
 
 async function doSomethingAsync(config, cb) {
-    let headers = {};
+    let headers = {
+        "purs-axios-token": uuidv4()
+    };
     config.headers.forEach(elem => {
         headers[elem[0]] = elem[1];
     });
     config.headers = headers;
+    if(config.method == "GET" || config.method == "DELETE"){
+        config.params = config.data;
+        delete config.data;
+    }
     await axios(config).then(res => {
         cb(false, res.data);
     }).catch(err => {
