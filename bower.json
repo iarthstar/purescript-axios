@@ -1,30 +1,30 @@
 {
-  "name": "purescript-axios",
-  "author": {
-    "name": "Arth K. Gajjar",
-    "email": "iarthstar@gmail.com",
-    "url": "https://github.com/iarthstar"
-  },
-  "private": false,
-  "license": "MIT",
-  "repository": {                                                           
-    "type": "git",                                                          
-    "url": "https://github.com/iarthstar/purescript-axios.git"             
-  },
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "output"
-  ],
-  "dependencies": {
-    "purescript-prelude": "^4.1.1",
-    "purescript-console": "^4.2.0",
-    "purescript-effect": "^2.0.1",
-    "purescript-foreign-generic": "^10.0.0",
-    "purescript-aff": "^5.1.1"
-  },
-  "devDependencies": {
-    "purescript-psci-support": "^4.0.0"
-  }
+    "name": "purescript-axios",
+    "author": {
+        "name": "Arth K. Gajjar",
+        "email": "iarthstar@gmail.com",
+        "url": "https://github.com/iarthstar"
+    },
+    "private": false,
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/iarthstar/purescript-axios.git"
+    },
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "output"
+    ],
+    "dependencies": {
+        "purescript-prelude": "^4.1.1",
+        "purescript-console": "^4.2.0",
+        "purescript-effect": "^2.0.1",
+        "purescript-foreign-generic": "^10.0.0",
+        "purescript-aff": "^5.1.1"
+    },
+    "devDependencies": {
+        "purescript-psci-support": "^4.0.0"
+    }
 }
