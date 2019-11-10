@@ -1,6 +1,6 @@
 # purescript-axios
 
-axios.js bindings for PureScript
+Axios JS bindings for PureScript
 
 ## Add purescript-axios to your existing projects
 
@@ -13,14 +13,9 @@ bower i purescript-axios
 ```purescript
 main :: Effect Unit
 main = launchAff_ do
-  let configPost = Config 
-        { url : userUrl
-        , method : POST
-        , data : CreateUserReq { name : "Arth K. Gajjar", job : "Developer" }
-        , headers : [ Header "Content-Type" "application/json" ]
-        }
+  let configPost = GetRepoInfoReq { username : "iarthstar", reponame : "purs-skpm" }
   axios configPost >>= case _ of
-    Right (CreateUserRes a) -> log $ "POST : " <> show a
+    Right (GetRepoInfoRes a) -> log $ "POST ----> " <> show a
     Left err -> logShow err
 ```
 
