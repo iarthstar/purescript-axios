@@ -10,8 +10,8 @@ module Axios
   , auth
   , headers
   , genericAxios
-  , defaultFetch
-  , defaultFetch'
+  , defaultAxios
+  , defaultAxios'
   ) where
 
 import Prelude
@@ -35,8 +35,6 @@ class Axios req res | req -> res where
 
 
 
-
--- | Types ------------------------------------------------------------------------------------------------------------
 
 -- | The `Config` is a product type for wrapping a pair of String and Foreign value,
 -- | as key value pairs forming config json for axios
@@ -72,8 +70,6 @@ instance decodeResponse :: Decode Response where decode = genericDecode (default
 
 
 
--- | Config -----------------------------------------------------------------------------------------------------------
-
 -- | Converts an `Method` value into a `Config` with key method
 method :: Method -> Config
 method = Config "method" <<< encode 
@@ -101,25 +97,41 @@ headers = Config "headers" <<< encode
 
 
 
--- | Helpers ----------------------------------------------------------------------------------------------------------
-
 -- | A generic implementation of the `axios` member from `Axios` class 
 -- | i.e. takes an url, array of config and request body and gives the `Either` `Error` response 
+-- |```purescript
+-- |genericAxios "/req_res/users/9" 
+-- |  [ method GET
+-- |  , headers [ Header "Content-Type" "application/json" ]
+-- |  , baseUrl "https://grandeur-backend.herokuapp.com"
+-- |  , auth "1234" "1234"
+-- |  ] req
+-- |```
 genericAxios :: forall req res. Decode res => Encode req => String -> Array Config -> req -> Aff (Either Error res)
 genericAxios urlStr configArr req = do
   attempt (fromEffectFnAff $ _axios urlStr (encode configArr) (encode req)) <#> responseToNewtype
 
 -- | A default implementation of the `axios` member from `Axios` class
 -- | i.e. takes an url, method and request body and gives the `Either` `Error` response 
-defaultFetch :: forall req res. Decode res => Encode req => String -> Method -> req -> Aff (Either Error res)
-defaultFetch urlStr methodType req = do
+-- |
+-- |```purescript
+-- |defaultAxios "https://grandeur-backend.herokuapp.com/gh_api/get_release_info/" POST req
+-- |```
+defaultAxios :: forall req res. Decode res => Encode req => String -> Method -> req -> Aff (Either Error res)
+defaultAxios urlStr methodType req = do
   let configF = encode [ method methodType ]
   attempt (fromEffectFnAff $ _axios urlStr configF (encode req)) <#> responseToNewtype
 
 -- | Another default implementation of the `axios` member from `Axios` class
 -- | i.e. takes an url, method, array of header and request body and gives the `Either` `Error` response 
-defaultFetch' :: forall req res. Decode res => Encode req => String -> Method -> Array Header -> req -> Aff (Either Error res)
-defaultFetch' urlStr methodType headersArr req = do
+-- |```purescript
+-- |defaultAxios' "https://reqres.in/api/users/7" PATCH 
+-- |  [ Header "Content-Type" "application/json"]
+-- |  , Header "Cache-Control" "no-cache"]
+-- |  ] req
+-- |```
+defaultAxios' :: forall req res. Decode res => Encode req => String -> Method -> Array Header -> req -> Aff (Either Error res)
+defaultAxios' urlStr methodType headersArr req = do
   let configF = encode [ method methodType, headers headersArr ]
   attempt (fromEffectFnAff $ _axios urlStr configF (encode req)) <#> responseToNewtype
 

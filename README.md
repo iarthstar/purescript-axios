@@ -2,9 +2,12 @@
 
 Axios JS bindings for PureScript
 
+- [Module Documentation](https://pursuit.purescript.org/packages/purescript-axios/)
+- [Example](https://github.com/iarthstar/purescript-axios/blob/master/test/Main.purs)
+
 ## Add purescript-axios to your existing projects
 
-```
+```bash
 bower i purescript-axios
 ```
 
@@ -16,17 +19,19 @@ newtype GetReleaseInfoReq = GetReleaseInfoReq
   , reponame :: String
   }
 derive instance genericGetReleaseInfoReq :: Generic GetReleaseInfoReq _
-instance encodeGetReleaseInfoReq :: Encode GetReleaseInfoReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
+instance encodeGetReleaseInfoReq :: Encode GetReleaseInfoReq where 
+  encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
 
 newtype GetReleaseInfoRes = GetReleaseInfoRes
   { total_download_count :: Int
   }
 derive instance genericGetReleaseInfoRes :: Generic GetReleaseInfoRes _
-instance encodeGetReleaseInfoRes :: Decode GetReleaseInfoRes where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
+instance encodeGetReleaseInfoRes :: Decode GetReleaseInfoRes where 
+  decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
 
 -- | Axios instance for GetReleaseInfo API
 instance axiosGetReleaseInfo :: Axios GetReleaseInfoReq GetReleaseInfoRes where 
-  axios = defaultFetch "https://grandeur-backend.herokuapp.com/gh_api/get_release_info/" POST
+  axios = defaultAxios "https://grandeur-backend.herokuapp.com/gh_api/get_release_info/" POST
 
 main :: Effect Unit
 main = launchAff_ do

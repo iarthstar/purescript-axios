@@ -2,7 +2,7 @@ module Test.Types where
 
 import Prelude
 
-import Axios (class Axios, Header(..), Method(..), auth, baseUrl, defaultFetch', genericAxios, headers, method)
+import Axios (class Axios, Header(..), Method(..), auth, baseUrl, defaultAxios', genericAxios, headers, method)
 import Data.Generic.Rep (class Generic)
 import Data.Generic.Rep.Show (genericShow)
 import Foreign.Generic (class Decode, class Encode, defaultOptions, genericDecode, genericEncode)
@@ -31,30 +31,25 @@ instance axiosSingleUserReq :: Axios SingleUserReq SingleUserRes where
                                     , auth "1234" "1234"
                                     ] req
 
-newtype GetRepoInfoReq = GetRepoInfoReq
-  { username :: String
-  , reponame :: String
+newtype PatchUserInfoReq = PatchUserInfoReq
+  { name :: String
+  , job :: String
   }
-derive instance genericGetRepoInfoReq :: Generic GetRepoInfoReq _
-instance encodeGetRepoInfoReq :: Encode GetRepoInfoReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
+derive instance genericPatchUserInfoReq :: Generic PatchUserInfoReq _
+instance encodePatchUserInfoReq :: Encode PatchUserInfoReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
 
-newtype GetRepoInfoRes = GetRepoInfoRes
-  { reponame :: String
-  , description :: String
-  , stargazers :: Int
-  , watchers :: Int
-  , forks :: Int
-  , open_issues :: Int
-  , is_private :: Boolean
-  , language :: String
+newtype PatchUserInfoRes = PatchUserInfoRes
+  { name :: String
+  , job :: String
+  , updatedAt :: String
   }
-derive instance genericGetRepoInfoRes :: Generic GetRepoInfoRes _
-instance decodeGetRepoInfoRes :: Decode GetRepoInfoRes where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
-instance showGetRepoInfoRes :: Show GetRepoInfoRes where show = genericShow
+derive instance genericPatchUserInfoRes :: Generic PatchUserInfoRes _
+instance decodePatchUserInfoRes :: Decode PatchUserInfoRes where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
+instance showPatchUserInfoRes :: Show PatchUserInfoRes where show = genericShow
 
--- | Axios instance for GetRepoInfo API
-instance axiosUpdateUserReq :: Axios GetRepoInfoReq GetRepoInfoRes where 
-  axios = defaultFetch' "https://grandeur-backend.herokuapp.com/gh_api/get_repo_info/" POST [ Header "Content-Type" "application/json"]
+-- | Axios instance for PatchUserInfo API
+instance axiosUpdateUserReq :: Axios PatchUserInfoReq PatchUserInfoRes where 
+  axios = defaultAxios' "https://reqres.in/api/users/2" PATCH [ Header "Content-Type" "application/json"]
 
 data DeleteUserReq = DeleteUserReq String {}
 derive instance genericDeleteUserReq :: Generic DeleteUserReq _
