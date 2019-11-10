@@ -11,11 +11,28 @@ bower i purescript-axios
 ## Code Snippet
 
 ```purescript
+newtype GetReleaseInfoReq = GetReleaseInfoReq
+  { username :: String
+  , reponame :: String
+  }
+derive instance genericGetReleaseInfoReq :: Generic GetReleaseInfoReq _
+instance encodeGetReleaseInfoReq :: Encode GetReleaseInfoReq where encode = genericEncode (defaultOptions { unwrapSingleConstructors = true })
+
+newtype GetReleaseInfoRes = GetReleaseInfoRes
+  { total_download_count :: Int
+  }
+derive instance genericGetReleaseInfoRes :: Generic GetReleaseInfoRes _
+instance encodeGetReleaseInfoRes :: Decode GetReleaseInfoRes where decode = genericDecode (defaultOptions { unwrapSingleConstructors = true })
+
+-- | Axios instance for GetReleaseInfo API
+instance axiosGetReleaseInfo :: Axios GetReleaseInfoReq GetReleaseInfoRes where 
+  axios = defaultFetch "https://grandeur-backend.herokuapp.com/gh_api/get_release_info/" POST
+
 main :: Effect Unit
 main = launchAff_ do
-  let configPost = GetRepoInfoReq { username : "iarthstar", reponame : "purs-skpm" }
+  let configPost = GetReleaseInfoReq { username : "iarthstar", reponame : "shadows-utilities" }
   axios configPost >>= case _ of
-    Right (GetRepoInfoRes a) -> log $ "POST ----> " <> show a
+    Right (GetReleaseInfoRes a) -> log $ "POST ----> " <> show a.total_download_count
     Left err -> logShow err
 ```
 
