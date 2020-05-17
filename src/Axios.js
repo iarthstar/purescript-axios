@@ -8,7 +8,12 @@ const arr2json = (arr) => {
     return json;
 }
 
-const doSomethingAsync = (url, options, req, cb) => {
+const eventMapper = {
+    'DownloadProgress': 'onDownloadProgress',
+    'UploadProgress': 'onUploadProgress'
+};
+
+const doSomethingAsync = (url, options, events, req, cb) => {
     let config = arr2json(options);
 
     let headers = options.filter(elem => elem[0] == "headers");
@@ -24,6 +29,8 @@ const doSomethingAsync = (url, options, req, cb) => {
         delete config.data;
     }
 
+    events.forEach(event => config[eventMapper[event.constructor.name]] = event.value0);
+
     axios(config)
         .then(res => cb(false, res))
         .catch(err => cb(true, err));
@@ -31,18 +38,20 @@ const doSomethingAsync = (url, options, req, cb) => {
 
 exports._axios = function (url) {
     return function (options) {
-        return function (req) {
-            return function (onError, onSuccess) {
-                let cancel = doSomethingAsync(url, options, req, function (err, res) {
-                    if (err) {
-                        onError(res);
-                    } else {
-                        onSuccess(res);
+        return function (events) {
+            return function (req) {
+                return function (onError, onSuccess) {
+                    let cancel = doSomethingAsync(url, options, events, req, function (err, res) {
+                        if (err) {
+                            onError(res);
+                        } else {
+                            onSuccess(res);
+                        }
+                    });
+                    return function (cancelError, onCancelerError, onCancelerSuccess) {
+                        cancel();
+                        onCancelerSuccess();
                     }
-                });
-                return function (cancelError, onCancelerError, onCancelerSuccess) {
-                    cancel();
-                    onCancelerSuccess();
                 }
             }
         }
