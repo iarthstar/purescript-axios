@@ -1,6 +1,7 @@
 module Test.Main where
 
-import Axios
+import Axios (class Axios, axios, defaultAxios)
+import Axios.Types (Method(..))
 
 import Data.Either (Either(..))
 import Data.Generic.Rep (class Generic)
@@ -9,7 +10,7 @@ import Effect.Aff (launchAff_)
 import Effect.Class.Console (log, logShow)
 import Foreign.Generic (class Decode, class Encode, defaultOptions, genericDecode, genericEncode)
 import Prelude (Unit, discard, show, ($), (<>), (>>=))
-import Test.Types -- (DeleteUserReq(..), DeleteUserRes(..), GetRepoInfoReq(..), GetRepoInfoRes(..), SingleUserReq(..), SingleUserRes(..))
+import Test.Types (DeleteUserReq(..), DeleteUserRes(..), PatchUserInfoReq(..), PatchUserInfoRes(..), SingleUserReq(..), SingleUserRes(..))
 
 newtype GetReleaseInfoReq = GetReleaseInfoReq
   { username :: String
@@ -45,7 +46,7 @@ main = launchAff_ do
   -- | PATCH API
   let configPatch = PatchUserInfoReq { name : "Arth K. Gajjar", job : "Developer" }
   axios configPatch >>= case _ of
-    Right (PatchUserInfoRes a) -> log $ "POST ----> " <> show a
+    Right (PatchUserInfoRes a) -> log $ "PATCH ----> " <> show a
     Left err -> logShow err
 
   -- | DELETE API

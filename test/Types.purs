@@ -2,7 +2,9 @@ module Test.Types where
 
 import Prelude
 
-import Axios (class Axios, Header(..), Method(..), auth, baseUrl, defaultAxios', genericAxios, headers, method)
+import Axios (class Axios, defaultAxios', genericAxios)
+import Axios.Types (Header(..), Method(..))
+import Axios.Config (auth, baseUrl, headers, method)
 import Data.Generic.Rep (class Generic)
 import Data.Generic.Rep.Show (genericShow)
 import Foreign.Generic (class Decode, class Encode, defaultOptions, genericDecode, genericEncode)
