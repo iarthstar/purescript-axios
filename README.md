@@ -48,6 +48,7 @@ main = launchAff_ do
 * Build Project
 
 ```bash
+$ yarn install
 $ yarn build
 ```
 
