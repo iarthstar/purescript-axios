@@ -29,3 +29,23 @@ auth username password = Config "auth" $ encode { username, password }
 -- | Constructs a `Config` with key headers from an array of `Header` 
 headers :: Array Header -> Config
 headers = Config "headers" <<< encode
+
+type ProxyRecord =
+  { host :: String
+  , port :: Number }
+
+-- Commented out because this is for Node only!
+-- | Constructs a `Config` with a proxy from a URL
+-- proxyFromURL :: String -> Config
+-- proxyFromURL str =
+--   let url = Node.URL.parse str in
+--   let port = case Data.Number.parse url.port of
+--               Just n -> n
+--               Nothing -> 8000
+--             in
+--   -- let pr = { host: url.hostname, port: port }
+--   Config "proxy" $ encode { host: url.hostname, port: port }
+
+-- | Constructs a `Config` with a proxy from hostname and port
+proxy :: String -> Int -> Config
+proxy hostname port = Config "proxy" $ encode { host:hostname, port: port }
