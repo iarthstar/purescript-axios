@@ -21,8 +21,8 @@
         "build": "pulp build"
     },
     "dependencies": {
-        "axios": "^0.19.0",
+        "axios": "^0.21.1",
         "pulp": "^13.0.0",
-        "purescript": "^0.13.2"
+        "purescript": "^0.14.4"
     }
 }
